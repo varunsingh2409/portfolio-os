@@ -1532,8 +1532,10 @@ body[data-wallpaper="solar"] .wallpaper-layer {
 @media (max-width: 768px) {
   /* Hide heavy UI from top bar */
   .system-pill { display: none; }
-  .top-bar-menus { display: none; }
-  .top-bar { padding: 0 12px; }
+  #top-bar-menus { display: none !important; }
+  #brand-name { display: none; }
+  .top-bar { padding: 0 12px; justify-content: space-between; }
+  .clock-pill { gap: 6px; padding: 6px 12px; }
 
   /* Re-flow desktop */
   .desktop-widgets {
@@ -1547,22 +1549,32 @@ body[data-wallpaper="solar"] .wallpaper-layer {
     display: none; /* Hide heavy stats */
   }
   .widget-clock {
-    padding: 24px 16px;
+    padding: 16px 12px;
   }
   .desktop-icons {
-    bottom: 24px;
+    top: 200px; /* Start below the clock */
+    bottom: 0px;
     left: 12px;
     right: 12px;
+    align-items: flex-start;
+    align-content: flex-start;
     justify-content: center;
     gap: 16px 12px;
+    overflow-y: auto;
+    padding-bottom: 24px;
+  }
+  
+  .desktop-icon {
+    width: 70px;
+    padding: 8px 4px;
   }
 
   /* Full Screen Apps */
   .window {
     top: 44px !important;
     left: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 44px) !important;
+    width: 100% !important;
+    height: calc(100% - 44px) !important;
     max-height: none !important;
     max-width: none !important;
     border-radius: 0 !important;
@@ -1575,6 +1587,10 @@ body[data-wallpaper="solar"] .wallpaper-layer {
     cursor: default; /* Disable grab icon */
     border-radius: 0;
   }
+  .window-content {
+    /* better scrolling on phones */
+    -webkit-overflow-scrolling: touch;
+  }
   
   .spotlight-modal {
     width: calc(100vw - 32px);
@@ -1582,8 +1598,15 @@ body[data-wallpaper="solar"] .wallpaper-layer {
   }
   
   /* Boot/Lock resizing */
-  .boot-panel, .lock-panel {
-    width: calc(100vw - 32px);
+  .boot-screen, .lock-screen {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 20vh;
+  }
+  
+  .boot-panel, .lock-card {
+    width: 100%;
+    max-width: 100%;
     padding: 24px;
   }
   .boot-title { font-size: 1.8rem; }
