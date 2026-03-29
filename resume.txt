@@ -1,0 +1,19 @@
+VARUN
+Cybersecurity Learner | BTech Computer Science Student
+
+LinkedIn
+https://www.linkedin.com/in/varun-4a3678235/
+
+Summary
+BTech Computer Science student with a strong interest in cybersecurity, ethical hacking,
+and hands-on technical learning. Building practical knowledge through structured
+certifications, university projects, and continuous self-learning.
+
+Highlights
+- 11 certifications across Google Cybersecurity and TryHackMe
+- Strong focus on Linux, SQL, networking, detection and response, and Python automation
+- Built an IoT-based animal health monitoring system
+- Proposed an AI-powered railway kiosk solution focused on social impact
+
+Current Goal
+- Open to internships, mentorship, and collaborations in cybersecurity and tech

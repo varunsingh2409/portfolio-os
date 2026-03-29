@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Varun's Interactive Cybersecurity Portfolio OS."
+    />
+    <meta property="og:title" content="Varun | Cybersecurity Portfolio OS" />
+    <meta property="og:description" content="Explore my projects, skills, and cybersecurity journey through an interactive web-based OS." />
+    <meta property="og:image" content="./image.jpg" />
+    <meta property="og:url" content="https://varun-portfolio-os.vercel.app" />
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Varun | Cybersecurity Portfolio OS" />
+    <meta name="twitter:description" content="Explore my projects, skills, and cybersecurity journey through an interactive web-based OS." />
+    <meta name="twitter:image" content="./image.jpg" />
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    <title>Varun | Portfolio OS</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-wallpaper="aurora">
+    <div class="app-shell">
+      <section class="boot-screen" id="boot-screen" aria-live="polite">
+        <div class="boot-panel">
+          <div class="boot-chip">Portfolio OS</div>
+          <div class="boot-glyph">V</div>
+          <h1 class="boot-title" id="boot-title">Waking up Varun's workspace</h1>
+          <p class="boot-copy" id="boot-copy">
+            Preparing the interface, projects, and interaction layers.
+          </p>
+          <div class="boot-progress">
+            <div class="boot-progress-bar" id="boot-progress-bar"></div>
+          </div>
+          <div class="boot-meta">
+            <span id="boot-progress-label">0%</span>
+            <button class="text-button" id="skip-boot-button" type="button">
+              Skip intro
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="lock-screen hidden" id="lock-screen">
+        <div class="lock-sheen"></div>
+        <div class="lock-card">
+          <div class="lock-badge">Interactive Portfolio</div>
+          <div class="avatar-orb" id="lock-avatar">V</div>
+          <p class="lock-greeting" id="lock-greeting">Varun</p>
+          <h2 class="lock-time" id="lock-time">00:00</h2>
+          <p class="lock-date" id="lock-date">Saturday, March 28</p>
+          <p class="lock-copy" id="lock-copy">
+            Inspired by the desktop experience you shared, rebuilt as your own portfolio shell.
+          </p>
+          <button class="primary-button" id="enter-desktop-button" type="button">
+            Enter desktop
+          </button>
+        </div>
+      </section>
+
+      <main class="desktop hidden" id="desktop">
+        <div class="wallpaper-layer" id="wallpaper-layer"></div>
+        <div class="ambient-blobs"></div>
+        <div class="noise-layer"></div>
+
+        <header class="top-bar">
+          <div class="top-bar-group">
+            <button class="brand-pill" id="brand-pill" type="button">
+              <span class="brand-mark">V</span>
+              <span id="brand-name">Varun OS</span>
+            </button>
+            <div id="top-bar-menus" style="display: flex; gap: 8px;">
+              <button class="top-chip" type="button">System</button>
+              <button class="top-chip" type="button">View</button>
+            </div>
+          </div>
+
+          <div class="top-bar-group top-bar-group-right">
+            <div class="system-pill">
+              <span class="system-dot system-dot-online"></span>
+              <span id="status-label">Cyber deck ready</span>
+            </div>
+            <button class="top-icon-button" id="spotlight-button" type="button" title="Spotlight Search (Ctrl+K)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="top-icon-button" id="control-center-button" type="button">
+              Theme
+            </button>
+            <div class="clock-pill">
+              <span id="desktop-day">Sat</span>
+              <span id="desktop-time">00:00</span>
+            </div>
+          </div>
+        </header>
+
+        <aside class="desktop-icons" id="desktop-icons" aria-label="Desktop apps"></aside>
+        <section class="window-stage" id="window-stage" aria-live="polite"></section>
+        <aside class="control-center hidden" id="control-center"></aside>
+        <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+        
+        <!-- Interactive Desktop Widgets Container -->
+        <aside class="desktop-widgets" id="desktop-widgets"></aside>
+
+        <!-- Universal Spotlight Search Overlay -->
+        <div class="spotlight-overlay hidden" id="spotlight-overlay">
+          <div class="spotlight-modal glass-card">
+            <input type="text" id="spotlight-input" class="spotlight-input" placeholder="Search apps, commands, or press Esc to close..." autocomplete="off" spellcheck="false" />
+            <div id="spotlight-results" class="spotlight-results"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

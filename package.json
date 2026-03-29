@@ -1,0 +1,10 @@
+{
+  "name": "varun-portfolio-os",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive OS-inspired portfolio for Varun.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
