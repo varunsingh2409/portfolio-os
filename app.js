@@ -7,6 +7,8 @@ const STORAGE_KEYS = {
   reactionBest: "varun-portfolio-reaction-best"
 };
 
+const MOBILE_BREAKPOINT = 860;
+
 const apps = [
   { id: "launcher", title: "App Launcher", glyph: "OS", defaultSize: { w: 600, h: 480 }, desktop: false },
   { id: "about", title: "About", glyph: "A", defaultSize: { w: 540, h: 480 }, desktop: true },
@@ -169,22 +171,13 @@ function bindEvents() {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth < 860 && state.bootDone) {
-      document.body.classList.add("mobile-cli-override");
-      if (!state.windows.some(w => w.id === "terminal")) {
-        openWindow("terminal");
-      }
-    } else {
-      document.body.classList.remove("mobile-cli-override");
-    }
-
     clampWindowsToViewport();
     elements.windowStage.querySelectorAll(".window").forEach((windowElement) => {
       const windowId = windowElement.dataset.windowId;
       const windowItem = state.windows.find(w => w.id === windowId);
       if (!windowItem) return;
       
-      if (window.innerWidth < 860 || windowItem.maximized) {
+      if (isMobileViewport() || windowItem.maximized) {
         windowElement.style.left = "0px";
         windowElement.style.top = "0px";
         windowElement.style.width = "100vw";
@@ -254,16 +247,9 @@ function enterDesktop() {
   elements.lockScreen.classList.add("hidden");
   elements.desktop.classList.remove("hidden");
   state.controlCenterOpen = false;
-
-  if (window.innerWidth < 860) {
-    document.body.classList.add("mobile-cli-override");
-    openWindow("terminal");
-  } else {
-    document.body.classList.remove("mobile-cli-override");
-    renderControlCenter();
-    pushToast("Desktop unlocked.");
-    updateCtaWidget();
-  }
+  renderControlCenter();
+  pushToast("Desktop unlocked.");
+  updateCtaWidget();
 }
 
 function updateClock() {
@@ -319,17 +305,6 @@ function renderDesktopIcons() {
 
 
 function openWindow(appId) {
-  if (window.innerWidth < 860 && appId !== "terminal") {
-    if (!state.windows.some((w) => w.id === "terminal")) {
-      openWindow("terminal");
-    }
-    const txt = "Auto-executing: " + appId + ".sh\n--- " + appId.toUpperCase() + " ---\n(Launch on desktop for full visual GUI.)";
-    state.terminalHistory.push(txt);
-    focusWindow("terminal");
-    renderWindows();
-    return;
-  }
-
   const app = appMap.get(appId);
   if (!app) {
     return;
@@ -364,7 +339,7 @@ function createInitialRect(defaultSize) {
   const safeWidth = Math.min(defaultSize.w, window.innerWidth - 32);
   const safeHeight = Math.min(defaultSize.h, window.innerHeight - 150);
 
-  if (window.innerWidth < 860) {
+  if (isMobileViewport()) {
     return {
       x: 12,
       y: 72,
@@ -394,15 +369,26 @@ function renderWindows() {
 
       return `
         <article
-          class="window ${isActive ? "is-active" : ""} ${windowItem.maximized || window.innerWidth < 860 ? "is-maximized" : ""}"
+          class="window ${isActive ? "is-active" : ""} ${windowItem.maximized || isMobileViewport() ? "is-maximized" : ""}"
           data-window-id="${windowItem.id}"
           style="${style}"
         >
           <header class="window-header" data-drag-handle="${windowItem.id}">
-            <div class="window-controls">
-              <button class="window-control danger" data-window-action="close" data-window-id="${windowItem.id}" type="button"></button>
-              <button class="window-control warn" data-window-action="minimize" data-window-id="${windowItem.id}" type="button"></button>
-              <button class="window-control ok" data-window-action="maximize" data-window-id="${windowItem.id}" type="button"></button>
+            <div class="window-header-leading">
+              <div class="window-controls">
+                <button class="window-control danger" data-window-action="close" data-window-id="${windowItem.id}" type="button"></button>
+                <button class="window-control warn" data-window-action="minimize" data-window-id="${windowItem.id}" type="button"></button>
+                <button class="window-control ok" data-window-action="maximize" data-window-id="${windowItem.id}" type="button"></button>
+              </div>
+              <button
+                class="window-mobile-back"
+                data-window-action="close"
+                data-window-id="${windowItem.id}"
+                type="button"
+                aria-label="Back to desktop"
+              >
+                Back
+              </button>
             </div>
             <div class="window-title-wrap">
               <span class="app-tile mini app-${windowItem.id}">${app.glyph}</span>
@@ -426,7 +412,7 @@ function renderWindows() {
 }
 
 function windowStyle(windowItem) {
-  if (window.innerWidth < 860 || windowItem.maximized) {
+  if (isMobileViewport() || windowItem.maximized) {
     return `left: 0px; top: 0px; width: 100vw; height: 100vh; z-index: ${windowItem.z}`;
   }
 
@@ -936,7 +922,7 @@ function wireWindowActions() {
     const header = windowElement.querySelector(".window-header");
     header.addEventListener("dblclick", () => toggleMaximize(windowId));
     header.addEventListener("pointerdown", (event) => {
-      if (event.target.closest(".window-controls") || window.innerWidth < 860) {
+      if (event.target.closest(".window-controls") || isMobileViewport()) {
         return;
       }
       startDrag(windowId, event);
@@ -944,7 +930,7 @@ function wireWindowActions() {
 
     const handle = windowElement.querySelector(".resize-handle");
     handle.addEventListener("pointerdown", (event) => {
-      if (window.innerWidth < 860) {
+      if (isMobileViewport()) {
         return;
       }
       startResize(windowId, event);
@@ -1009,7 +995,7 @@ function updateWindowPosition(windowId) {
   const windowItem = getWindow(windowId);
   const windowElement = elements.windowStage.querySelector(`[data-window-id="${windowId}"]`);
 
-  if (!windowItem || !windowElement || windowItem.maximized || window.innerWidth < 860) {
+  if (!windowItem || !windowElement || windowItem.maximized || isMobileViewport()) {
     return;
   }
 
@@ -1091,7 +1077,7 @@ function toggleMaximize(windowId) {
 
 function clampWindowsToViewport() {
   state.windows.forEach((windowItem) => {
-    if (windowItem.maximized || window.innerWidth < 860) {
+    if (windowItem.maximized || isMobileViewport()) {
       return;
     }
     windowItem.w = Math.min(windowItem.w, window.innerWidth - 24);
@@ -1116,12 +1102,12 @@ function wireWindowSpecificContent() {
       renderWindows();
       window.setTimeout(() => {
         const input = document.getElementById("terminal-input");
-        if (input && window.innerWidth >= 860) {
+        if (input && !isMobileViewport()) {
           input.focus();
         }
       }, 0);
     });
-    if (window.innerWidth >= 860) {
+    if (!isMobileViewport()) {
       window.setTimeout(() => terminalInput.focus(), 0);
     }
   }
@@ -1533,4 +1519,8 @@ function renderTopBarMenus() {
   elements.topBarMenus.querySelectorAll(".top-menu-btn").forEach(btn => {
     btn.addEventListener("click", () => pushToast(`${btn.textContent.trim()} options`));
   });
+}
+
+function isMobileViewport() {
+  return window.innerWidth < MOBILE_BREAKPOINT;
 }

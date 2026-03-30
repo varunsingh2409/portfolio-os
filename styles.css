@@ -714,6 +714,13 @@ body[data-wallpaper="abyss"] .wallpaper-layer {
   cursor: crosshair;
 }
 
+.window-header-leading {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 .window-controls {
   display: inline-flex;
   gap: 8px;
@@ -740,21 +747,46 @@ body[data-wallpaper="abyss"] .wallpaper-layer {
 .window-title-wrap {
   gap: 12px;
   width: 100%;
+  min-width: 0;
+}
+
+.window-title-wrap > div {
+  min-width: 0;
 }
 
 .window-title {
   font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .window-subtitle {
   margin: 2px 0 0;
   font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .window-body {
   flex: 1;
   overflow: auto;
   padding: 18px;
+}
+
+.window-mobile-back {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .resize-handle {
@@ -1373,41 +1405,89 @@ body[data-wallpaper="abyss"] .wallpaper-layer {
 
 @media (max-width: 860px) {
   body {
-    overflow: auto;
+    overflow: hidden;
   }
 
   .top-bar {
+    top: 10px;
     left: 12px;
     right: 12px;
     gap: 10px;
-    flex-wrap: wrap;
+    padding: 10px 12px;
+    flex-wrap: nowrap;
   }
 
   .top-chip {
     display: none;
   }
 
-  .desktop-icons {
-    top: 90px;
+  .desktop-widgets {
+    top: 82px;
     left: 12px;
     right: 12px;
+    width: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .desktop-icons {
+    top: 250px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    align-content: start;
+    gap: 16px 12px;
+    overflow-y: auto;
+    padding-bottom: 12px;
     z-index: 16;
   }
 
   .desktop-icon {
     width: auto;
+    min-width: 0;
   }
 
   .window {
-    border-radius: 24px;
+    top: 62px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: calc(100dvh - 62px) !important;
+    border-radius: 24px 24px 0 0 !important;
+    border-bottom: none !important;
   }
 
   .window-header {
+    gap: 12px;
+    padding: 12px;
     cursor: default;
   }
 
+  .window-controls {
+    display: none;
+  }
+
+  .window-mobile-back {
+    display: inline-flex;
+  }
+
+  .window-subtitle {
+    display: none;
+  }
+
+  .window-body {
+    padding: 16px 14px 18px;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .resize-handle {
+    display: none;
+  }
+
+  .cta-widget {
     display: none;
   }
 
@@ -1586,38 +1666,6 @@ body[data-wallpaper="abyss"] .wallpaper-layer {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* --- Pure Mobile CLI Override --- */
-body.mobile-cli-override .desktop-icons,
-body.mobile-cli-override .top-bar,
-body.mobile-cli-override .control-center,
-body.mobile-cli-override .desktop-widgets,
-body.mobile-cli-override .cta-widget {
-  display: none !important;
-}
-
-body.mobile-cli-override .window-stage {
-  z-index: 9999;
-  background: var(--bg);
-  pointer-events: auto;
-}
-
-body.mobile-cli-override .window {
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  max-width: none !important;
-  max-height: none !important;
-  border-radius: 0 !important;
-  border: none !important;
-  margin: 0 !important;
-  animation: fadeIn 0.4s ease forwards !important;
-}
-
-body.mobile-cli-override .window-header .window-controls {
-  display: none !important;
-}
-
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   /* Hide heavy UI from top bar */
@@ -1633,6 +1681,7 @@ body.mobile-cli-override .window-header .window-controls {
     left: 16px;
     right: 16px;
     width: auto;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
   .widget-stats {
@@ -1642,10 +1691,11 @@ body.mobile-cli-override .window-header .window-controls {
     padding: 16px 12px;
   }
   .desktop-icons {
-    top: 200px; /* Start below the clock */
+    top: 170px; /* Start below the clock */
     bottom: 0px;
     left: 12px;
     right: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: flex-start;
     align-content: flex-start;
     justify-content: center;
@@ -1661,13 +1711,13 @@ body.mobile-cli-override .window-header .window-controls {
 
   /* Full Screen Apps */
   .window {
-    top: 44px !important;
+    top: 56px !important;
     left: 0 !important;
     width: 100% !important;
-    height: calc(100% - 44px) !important;
+    height: calc(100dvh - 56px) !important;
     max-height: none !important;
     max-width: none !important;
-    border-radius: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
     border: none !important;
     margin: 0 !important;
     animation: windowMobileEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
@@ -1675,11 +1725,7 @@ body.mobile-cli-override .window-header .window-controls {
   
   .window-header {
     cursor: default; /* Disable grab icon */
-    border-radius: 0;
-  }
-  .window-content {
-    /* better scrolling on phones */
-    -webkit-overflow-scrolling: touch;
+    border-radius: 20px 20px 0 0;
   }
   
   .spotlight-modal {
