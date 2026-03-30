@@ -299,19 +299,19 @@ export const portfolioData = {
   ],
   wallpapers: [
     {
-      id: "aurora",
-      label: "Aurora Grid",
-      description: "Luminous gradients with a high-contrast cyber glow."
+      id: "cyber-grid",
+      label: "Holographic Grid",
+      description: "A continuously scrolling geometric mesh tied to the active system accent color."
     },
     {
-      id: "midnight",
-      label: "Midnight Flow",
-      description: "Deep blue ambience with softer motion and cooler highlights."
+      id: "scanline-dense",
+      label: "Dense Scanlines",
+      description: "Aggressive CRT scanlines simulating raw terminal feed lines across the entire desktop."
     },
     {
-      id: "solar",
-      label: "Solar Mesh",
-      description: "Warmer tones for a brighter alternate desktop mood."
+      id: "abyss",
+      label: "Terminal Abyss",
+      description: "Pure, uninterrupted black void for maximum focus and high-contrast terminal environments."
     }
   ],
   commands: {
