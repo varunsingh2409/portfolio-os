@@ -246,55 +246,55 @@ export const portfolioData = {
     "Current focus:\n- Keep building cybersecurity depth through hands-on learning.\n- Add more security projects, labs, and challenge write-ups.\n- Add GitHub, resume PDF, and future CTF or lab links.\n- Stay open to internships, mentorship, and collaboration.\n",
   themes: [
     {
-      id: "terminal",
-      label: "Executive Dark",
-      accent: "#3b82f6", /* Trustworthy Blue */
-      accentStrong: "#2563eb",
-      accentAlt: "#60a5fa",
-      bgBase: "#0d1117", /* GitHub Slate */
-      textMain: "#e6edf3",
-      textMuted: "#8b949e",
-      windowBg: "rgba(22, 27, 34, 0.85)", /* Very opaque for reading */
-      cardBg: "rgba(33, 38, 45, 0.85)",
-      glassBlur: "blur(20px)",
-      radiusWindow: "12px",
-      radiusCard: "8px",
-      borderLight: "1px solid #30363d",
-      shadowActive: "0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px #3b82f6"
+      id: "cyber-green",
+      label: "Matrix Green",
+      accent: "#00ff41",
+      accentStrong: "#00d433",
+      accentAlt: "#00aa22",
+      bgBase: "#0a0a0f",
+      textMain: "#e6e6e6",
+      textMuted: "#8c8c9a",
+      windowBg: "rgba(10, 10, 15, 0.85)",
+      cardBg: "rgba(0, 255, 65, 0.03)",
+      glassBlur: "blur(15px)",
+      radiusWindow: "4px",
+      radiusCard: "2px",
+      borderLight: "1px solid rgba(0, 255, 65, 0.2)",
+      shadowActive: "0 0 20px rgba(0, 255, 65, 0.15), 0 0 0 1px #00ff41"
     },
     {
-      id: "frost",
-      label: "Clean Light",
-      accent: "#0ea5e9", /* Bright Sky Blue */
-      accentStrong: "#0284c7",
-      accentAlt: "#38bdf8",
-      bgBase: "#f8fafc", /* Soft White */
-      textMain: "#0f172a", /* Deep Charcoal */
-      textMuted: "#64748b",
-      windowBg: "rgba(255, 255, 255, 0.95)", /* Nearly solid white */
-      cardBg: "rgba(241, 245, 249, 0.90)",
-      glassBlur: "blur(10px)",
-      radiusWindow: "16px",
-      radiusCard: "12px",
-      borderLight: "1px solid #e2e8f0",
-      shadowActive: "0 10px 40px rgba(0, 0, 0, 0.08), 0 0 0 2px rgba(14, 165, 233, 0.3)"
+      id: "cyber-cyan",
+      label: "Electric Cyan",
+      accent: "#00d4ff",
+      accentStrong: "#00b2e6",
+      accentAlt: "#0088b3",
+      bgBase: "#05070a",
+      textMain: "#e6e6e6",
+      textMuted: "#8c94a1",
+      windowBg: "rgba(5, 7, 10, 0.85)",
+      cardBg: "rgba(0, 212, 255, 0.03)",
+      glassBlur: "blur(15px)",
+      radiusWindow: "4px",
+      radiusCard: "2px",
+      borderLight: "1px solid rgba(0, 212, 255, 0.2)",
+      shadowActive: "0 0 20px rgba(0, 212, 255, 0.15), 0 0 0 1px #00d4ff"
     },
     {
-      id: "onyx",
-      label: "Midnight Monochrome",
-      accent: "#ffffff", /* Neutral */
-      accentStrong: "#d4d4d8",
-      accentAlt: "#a1a1aa",
-      bgBase: "#000000", /* Pure Matte Black */
-      textMain: "#ffffff",
-      textMuted: "#a1a1aa",
-      windowBg: "#0a0a0a", /* Zero Transparency */
-      cardBg: "#121212", /* Zero Transparency */
-      glassBlur: "none",
-      radiusWindow: "0px",
-      radiusCard: "0px",
-      borderLight: "1px solid #27272a",
-      shadowActive: "0 0 0 1px #ffffff, 0 16px 40px rgba(255, 255, 255, 0.05)"
+      id: "cyber-yellow",
+      label: "Acid Yellow",
+      accent: "#f5ff00",
+      accentStrong: "#e0e600",
+      accentAlt: "#b3b800",
+      bgBase: "#0f0f0a",
+      textMain: "#e6e6e6",
+      textMuted: "#a1a18c",
+      windowBg: "rgba(15, 15, 10, 0.85)",
+      cardBg: "rgba(245, 255, 0, 0.03)",
+      glassBlur: "blur(15px)",
+      radiusWindow: "4px",
+      radiusCard: "2px",
+      borderLight: "1px solid rgba(245, 255, 0, 0.2)",
+      shadowActive: "0 0 20px rgba(245, 255, 0, 0.15), 0 0 0 1px #f5ff00"
     }
   ],
   wallpapers: [

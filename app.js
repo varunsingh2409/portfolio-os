@@ -205,7 +205,8 @@ function startBootSequence() {
     );
 
     elements.bootProgressBar.style.width = `${progress}%`;
-    elements.bootProgressLabel.textContent = `${progress}%`;
+    const barBlocks = "█".repeat(Math.min(20, Math.floor(progress / 5))).padEnd(20, " ");
+    elements.bootProgressLabel.textContent = `[${barBlocks}] ${progress}%`;
     elements.bootCopy.textContent = portfolioData.bootLines[lineIndex];
 
     if (progress >= 100) {
@@ -226,12 +227,39 @@ function finishBootSequence() {
   pushToast("System ready. Unlock to continue.");
 }
 
+const TYPEWRITER_TEXT = "> Available for work. Open to roles in cybersecurity. ";
+let ctaIndex = 0;
+
+function updateCtaWidget() {
+  const ctaElement = document.getElementById("cta-typewriter");
+  if (!ctaElement) return;
+  ctaElement.textContent = TYPEWRITER_TEXT.substring(0, ctaIndex);
+  ctaIndex++;
+  if (ctaIndex > TYPEWRITER_TEXT.length + 10) { 
+    ctaIndex = 0; 
+  }
+  setTimeout(updateCtaWidget, ctaIndex === 0 ? 1500 : 120);
+}
+
 function enterDesktop() {
   elements.lockScreen.classList.add("hidden");
   elements.desktop.classList.remove("hidden");
   state.controlCenterOpen = false;
-  renderControlCenter();
-  pushToast("Desktop unlocked.");
+
+  if (window.innerWidth < 860) {
+    document.getElementById("desktop-icons").classList.add("hidden");
+    document.querySelector(".top-bar").classList.add("hidden");
+    const widgets = document.getElementById("desktop-widgets");
+    if (widgets) widgets.classList.add("hidden");
+    const cta = document.getElementById("cta-widget");
+    if (cta) cta.classList.add("hidden");
+    document.body.classList.add("mobile-cli-override");
+    openWindow("terminal");
+  } else {
+    renderControlCenter();
+    pushToast("Desktop unlocked.");
+    updateCtaWidget();
+  }
 }
 
 function updateClock() {
@@ -287,6 +315,16 @@ function renderDesktopIcons() {
 
 
 function openWindow(appId) {
+  if (window.innerWidth < 860 && appId !== "terminal") {
+    if (!state.windows.some((w) => w.id === "terminal")) {
+      openWindow("terminal");
+    }
+    const txt = "Auto-executing: " + appId + ".sh\n--- " + appId.toUpperCase() + " ---\n(Launch on desktop for full visual GUI.)";
+    state.terminalHistory.push(txt);
+    renderWindows();
+    return;
+  }
+
   const app = appMap.get(appId);
   if (!app) {
     return;
@@ -579,6 +617,13 @@ function renderProjectsApp() {
         .map(
           (project) => `
             <article class="project-card glass-card">
+              <pre class="project-ascii-art" style="font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--accent); opacity: 0.8; line-height: 1.2; margin: 0 0 16px 0; user-select: none;">
+  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ 
+  █ ▄▄▄▄▄ █ ▄▄▄▄▄▄█ ▄▄▄▄▄ █ ▄▄▄ █ 
+  █ █   █ █ █       █   █ █   █ █ 
+  █ █▄▄▄█ █ █▄▄▄▄▄  █▄▄▄█ █ ▄▄▄ █ 
+  █▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄█ 
+              </pre>
               <div class="project-topline">
                 <p class="section-label">${project.result}</p>
                 <span class="chip">${project.duration}</span>
