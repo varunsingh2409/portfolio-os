@@ -169,6 +169,15 @@ function bindEvents() {
   });
 
   window.addEventListener("resize", () => {
+    if (window.innerWidth < 860 && state.bootDone) {
+      document.body.classList.add("mobile-cli-override");
+      if (!state.windows.some(w => w.id === "terminal")) {
+        openWindow("terminal");
+      }
+    } else {
+      document.body.classList.remove("mobile-cli-override");
+    }
+
     clampWindowsToViewport();
     elements.windowStage.querySelectorAll(".window").forEach((windowElement) => {
       const windowId = windowElement.dataset.windowId;
@@ -176,10 +185,10 @@ function bindEvents() {
       if (!windowItem) return;
       
       if (window.innerWidth < 860 || windowItem.maximized) {
-        windowElement.style.left = "12px";
-        windowElement.style.top = "72px";
-        windowElement.style.width = "calc(100vw - 24px)";
-        windowElement.style.height = "calc(100vh - 154px)";
+        windowElement.style.left = "0px";
+        windowElement.style.top = "0px";
+        windowElement.style.width = "100vw";
+        windowElement.style.height = "100vh";
         windowElement.classList.add("is-maximized");
       } else {
         windowElement.style.left = `${windowItem.x}px`;
@@ -247,15 +256,10 @@ function enterDesktop() {
   state.controlCenterOpen = false;
 
   if (window.innerWidth < 860) {
-    document.getElementById("desktop-icons").classList.add("hidden");
-    document.querySelector(".top-bar").classList.add("hidden");
-    const widgets = document.getElementById("desktop-widgets");
-    if (widgets) widgets.classList.add("hidden");
-    const cta = document.getElementById("cta-widget");
-    if (cta) cta.classList.add("hidden");
     document.body.classList.add("mobile-cli-override");
     openWindow("terminal");
   } else {
+    document.body.classList.remove("mobile-cli-override");
     renderControlCenter();
     pushToast("Desktop unlocked.");
     updateCtaWidget();
@@ -321,6 +325,7 @@ function openWindow(appId) {
     }
     const txt = "Auto-executing: " + appId + ".sh\n--- " + appId.toUpperCase() + " ---\n(Launch on desktop for full visual GUI.)";
     state.terminalHistory.push(txt);
+    focusWindow("terminal");
     renderWindows();
     return;
   }
@@ -422,7 +427,7 @@ function renderWindows() {
 
 function windowStyle(windowItem) {
   if (window.innerWidth < 860 || windowItem.maximized) {
-    return `left: 12px; top: 72px; width: calc(100vw - 24px); height: calc(100vh - 154px); z-index: ${windowItem.z}`;
+    return `left: 0px; top: 0px; width: 100vw; height: 100vh; z-index: ${windowItem.z}`;
   }
 
   return `left: ${windowItem.x}px; top: ${windowItem.y}px; width: ${windowItem.w}px; height: ${windowItem.h}px; z-index: ${windowItem.z}`;

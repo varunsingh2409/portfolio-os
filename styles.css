@@ -1586,6 +1586,38 @@ body[data-wallpaper="abyss"] .wallpaper-layer {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* --- Pure Mobile CLI Override --- */
+body.mobile-cli-override .desktop-icons,
+body.mobile-cli-override .top-bar,
+body.mobile-cli-override .control-center,
+body.mobile-cli-override .desktop-widgets,
+body.mobile-cli-override .cta-widget {
+  display: none !important;
+}
+
+body.mobile-cli-override .window-stage {
+  z-index: 9999;
+  background: var(--bg);
+  pointer-events: auto;
+}
+
+body.mobile-cli-override .window {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+  animation: fadeIn 0.4s ease forwards !important;
+}
+
+body.mobile-cli-override .window-header .window-controls {
+  display: none !important;
+}
+
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   /* Hide heavy UI from top bar */
