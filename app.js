@@ -170,7 +170,25 @@ function bindEvents() {
 
   window.addEventListener("resize", () => {
     clampWindowsToViewport();
-    renderWindows();
+    elements.windowStage.querySelectorAll(".window").forEach((windowElement) => {
+      const windowId = windowElement.dataset.windowId;
+      const windowItem = state.windows.find(w => w.id === windowId);
+      if (!windowItem) return;
+      
+      if (window.innerWidth < 860 || windowItem.maximized) {
+        windowElement.style.left = "12px";
+        windowElement.style.top = "72px";
+        windowElement.style.width = "calc(100vw - 24px)";
+        windowElement.style.height = "calc(100vh - 154px)";
+        windowElement.classList.add("is-maximized");
+      } else {
+        windowElement.style.left = `${windowItem.x}px`;
+        windowElement.style.top = `${windowItem.y}px`;
+        windowElement.style.width = `${windowItem.w}px`;
+        windowElement.style.height = `${windowItem.h}px`;
+        windowElement.classList.remove("is-maximized");
+      }
+    });
   });
 }
 
@@ -1138,6 +1156,27 @@ function runTerminalCommand(command) {
 
   if (command === "clear") {
     state.terminalHistory = [];
+    return;
+  }
+
+  if (command === "sudo" || command.startsWith("sudo ")) {
+    state.terminalHistory.push("Nice try. This incident will be reported.");
+    return;
+  }
+
+  if (command === "whoami") {
+    state.terminalHistory.push("visitor_0x" + Math.floor(Math.random() * 1000000).toString(16));
+    return;
+  }
+
+  if (command === "date") {
+    state.terminalHistory.push(new Date().toString());
+    return;
+  }
+
+  if (command === "matrix") {
+    document.body.classList.toggle("matrix-mode");
+    state.terminalHistory.push("Toggling system matrix override...");
     return;
   }
 
