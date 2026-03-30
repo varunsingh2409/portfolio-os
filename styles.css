@@ -459,12 +459,52 @@ body[data-wallpaper="solar"] .wallpaper-layer {
 }
 
 .noise-layer {
-  opacity: 0.14;
+  opacity: 0.8;
   background-image:
-    radial-gradient(rgba(255, 255, 255, 0.4) 0.5px, transparent 0.5px),
-    radial-gradient(rgba(255, 255, 255, 0.2) 0.5px, transparent 0.5px);
-  background-position: 0 0, 12px 12px;
-  background-size: 24px 24px;
+    linear-gradient(color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 15%, transparent) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center center;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  perspective: 1000px;
+  transform: scale(1.1);
+  animation: gridPulse 6s infinite alternate;
+}
+
+@keyframes gridPulse {
+  0% { opacity: 0.4; transform: scale(1.1) rotateX(2deg); }
+  100% { opacity: 0.9; transform: scale(1.12) rotateX(-2deg); }
+}
+
+.app-shell::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 25vh;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 12%, transparent) 50%, transparent);
+  z-index: 9998;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: scanline 10s linear infinite;
+}
+
+.app-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.12) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  background-size: 100% 3px, 3px 100%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
 }
 
 .top-bar {
@@ -644,8 +684,14 @@ body[data-wallpaper="solar"] .wallpaper-layer {
 }
 
 .window.is-active {
-  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  box-shadow: var(--shadow-active);
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: var(--shadow-active), 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+  animation: windowPulse 3s infinite alternate;
+}
+
+@keyframes windowPulse {
+  0% { box-shadow: var(--shadow-active), 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent); }
+  100% { box-shadow: var(--shadow-active), 0 0 30px color-mix(in srgb, var(--accent) 60%, transparent); }
 }
 
 .window-header {

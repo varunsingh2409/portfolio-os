@@ -1048,12 +1048,14 @@ function wireWindowSpecificContent() {
       renderWindows();
       window.setTimeout(() => {
         const input = document.getElementById("terminal-input");
-        if (input) {
+        if (input && window.innerWidth >= 860) {
           input.focus();
         }
       }, 0);
     });
-    window.setTimeout(() => terminalInput.focus(), 0);
+    if (window.innerWidth >= 860) {
+      window.setTimeout(() => terminalInput.focus(), 0);
+    }
   }
 
   const notesArea = document.getElementById("notes-area");
